@@ -1,0 +1,55 @@
+{
+  "design": {
+    "religion": "hindu",
+    "templateId": "hin-royal-marigold"
+  },
+  "top": {
+    "ganesh": "|| Shri Ganeshay Namah ||",
+    "showShlok": true,
+    "shlok": "वक्रतुंड महाकाय सूर्यकोटि समप्रभः। निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥",
+    "quote": "Two souls, one sacred journey — blessed by the divine.",
+    "hosts": "Smt. Kamla & Sh. Rajender Kumar",
+    "inviteLine": "Solicit your gracious presence at the auspicious wedding of their beloved son",
+    "eventsTitle": "Shubh Vivah Programme"
+  },
+  "couple": {
+    "groom": "Chirag",
+    "groomDet": "Grand S/o Late Sh. Ram Lal",
+    "bride": "Simran",
+    "brideDet": "D/o Smt. Sunita & Sh. Manoj Gupta",
+    "brideAddr": "R/o Civil Lines, Jaipur"
+  },
+  "events": [
+    {
+      "name": "Lagan Sagai",
+      "date": "2026-02-10",
+      "time": "04:00 PM",
+      "visible": true
+    },
+    {
+      "name": "Dinner",
+      "date": "2026-02-10",
+      "time": "07:00 PM",
+      "visible": true
+    },
+    {
+      "name": "Ghurchari",
+      "date": "2026-02-14",
+      "time": "04:00 PM",
+      "visible": true
+    },
+    {
+      "name": "Barat Departure",
+      "date": "2026-02-14",
+      "time": "08:00 PM",
+      "visible": true
+    }
+  ],
+  "bottom": {
+    "venueName": "Golden Galaxy Resort",
+    "venueAddr": "GT Road, Karnal, Haryana",
+    "rsvp": "Darshan Lal - 9876543210\nMukesh Kumar - 9876543210",
+    "compliments": "Gupta Family & Friends",
+    "kids": "Mamu ki shadi me jalul jalul aana — Ananya"
+  }
+}

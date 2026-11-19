@@ -1,240 +1,339 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WeddingFlow | Single Card Edition</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Great+Vibes&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeddingFlow Pro — Invitation Studio &amp; Native PDF Engine</title>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- PDF Lib -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Great+Vibes&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="css/studio.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.2.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="mode-edit">
 
-    <!-- Header / Navigation -->
-    <header class="header">
-        <div class="brand">
-            <i class="fa-solid fa-heart"></i>
-            <span class="brand-text">WeddingFlow</span>
-        </div>
-
-        <!-- Mobile View Switcher -->
-        <div class="view-switch">
-            <div class="v-btn active" onclick="setMode('edit')"><i class="fa-solid fa-pen-to-square"></i> </div>
-            <div class="v-btn" onclick="setMode('preview')"><i class="fa-solid fa-eye"></i> </div>
-        </div>
-
-        <!-- Desktop Controls -->
-        <div class="controls">
-            <!-- New: Explicit JSON Controls in HTML -->
-            <button class="icon-btn" onclick="saveData()" title="Save JSON (Ctrl+S)">
-                <i class="fa-solid fa-floppy-disk"></i>
-            </button>
-            <button class="icon-btn" onclick="loadData()" title="Load JSON (Ctrl+O)">
-                <i class="fa-solid fa-folder-open"></i>
-            </button>
-            
-            <div class="sep"></div>
-
-            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Dark Mode">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-            <button class="icon-btn primary" onclick="downloadPDF()" title="Download PDF">
-                <i class="fa-solid fa-download"></i>
-            </button>
-        </div>
-    </header>
-
-    <div class="workspace">
-        <!-- Sidebar Editor -->
-        <aside>
-            <nav class="tabs-nav">
-                <div class="tab-btn active" onclick="switchTab('tab-setup')">Top</div>
-                <div class="tab-btn" onclick="switchTab('tab-couple')">Couple</div>
-                <div class="tab-btn" onclick="switchTab('tab-events')">Events</div>
-                <div class="tab-btn" onclick="switchTab('tab-bottom')">Bottom</div>
-            </nav>
-
-            <!-- TAB 1: SETUP -->
-            <div id="tab-setup" class="tab-content active">
-                <div class="form-group">
-                    <label class="form-label">Ganesh Line</label>
-                    <input type="text" id="in-ganesh" value="|| Shri Ganeshay Namah ||" oninput="render()">
-                </div>
-                <div class="toggle-row">
-                    <span class="form-label">Show Shloka</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="check-shlok" checked onchange="render()">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="form-group" id="group-shlok">
-                    <label class="form-label">Sanskrit Shloka</label>
-                    <textarea id="in-shlok" rows="2" oninput="render()">वक्रतुंड महाकाय सूर्यकोटि समप्रभः। निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥</textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Quote</label>
-                    <textarea id="in-quote" rows="2" oninput="render()">Marriage Touch settled in heaven are However arrange on the earth.</textarea>
-                </div>
-
-                <div class="form-group" style="margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 10px;">
-                    <label class="form-label">Host Line (Parents)</label>
-                    <input type="text" id="in-host-parents" value="Smt. Kamla & Sh. Rajender Kumar" oninput="render()">
-                </div>
-            </div>
-
-            <!-- TAB 2: COUPLE -->
-            <div id="tab-couple" class="tab-content">
-                <div class="form-label text-center" style="margin-bottom: 10px; color: var(--primary);">GROOM</div>
-                <div class="form-group">
-                    <input type="text" id="in-groom" value="Chirag" placeholder="Name" oninput="render()">
-                </div>
-                <div class="form-group">
-                    <textarea id="in-groom-details" rows="3" placeholder="Grandparents/Parents" oninput="render()">Grand S/o Late Sh. Ram Lal</textarea>
-                </div>
-
-                <div class="form-label text-center" style="margin: 20px 0 10px; color: var(--primary); border-top:1px solid #eee; padding-top:10px;">BRIDE</div>
-                <div class="form-group">
-                    <input type="text" id="in-bride" value="Simran" placeholder="Name" oninput="render()">
-                </div>
-                <div class="form-group">
-                    <textarea id="in-bride-details" rows="3" placeholder="Parents Details" oninput="render()">D/o Smt. Sunita & Sh. Manoj Gupta</textarea>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="in-bride-addr" value="R/o Civil Lines, Jaipur" placeholder="Residence" oninput="render()">
-                </div>
-            </div>
-
-            <!-- TAB 3: EVENTS -->
-            <div id="tab-events" class="tab-content">
-                <div class="form-label">Events List</div>
-                <div id="events-container"></div>
-                <button class="btn-add" onclick="addEvent()"><i class="fa-solid fa-plus"></i> Add Event</button>
-            </div>
-
-            <!-- TAB 4: BOTTOM -->
-            <div id="tab-bottom" class="tab-content">
-                <div class="form-group">
-                    <label class="form-label">Venue Name</label>
-                    <input type="text" id="in-venue-name" value="Golden Galaxy Resort" oninput="render()">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Venue Address</label>
-                    <input type="text" id="in-venue-addr" value="GT Road, Karnal, Haryana" oninput="render()">
-                </div>
-
-                <div class="form-group" style="margin-top: 20px;">
-                    <label class="form-label">RSVP</label>
-                    <textarea id="in-rsvp" rows="3" oninput="render()">Darshan Lal - 9876543210
-Mukesh Kumar - 9876543210</textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Compliments</label>
-                    <textarea id="in-compliments" rows="2" oninput="render()">Gupta Family & Friends</textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Kids Message</label>
-                    <input type="text" id="in-kids" value="Mamu ki shadi me jalul jalul aana - Ananya" oninput="render()">
-                </div>
-            </div>
-        </aside>
-
-        <!-- Preview Area -->
-        <main id="preview-area">
-            
-            <!-- SINGLE CARD LAYOUT -->
-            <div class="shadi-card" id="main-card">
-                <div class="card-inner">
-                    <!-- Corners -->
-                    <div class="ornament tl"></div><div class="ornament tr"></div>
-                    <div class="ornament bl"></div><div class="ornament br"></div>
-
-                    <!-- Header -->
-                    <div class="section-header">
-                        <div style="font-size: 1.8rem; color: var(--gold);"><i class="fa-solid fa-om"></i></div>
-                        <div class="font-hindi text-pink" style="font-weight:700; font-size: 1.1rem;" id="out-ganesh"></div>
-                        <div class="font-hindi text-muted" style="font-size:0.8rem; margin-top:4px;" id="out-shlok"></div>
-                    </div>
-
-                    <div class="text-center font-body" style="font-style: italic; font-size: 0.85rem; color: #555; margin: 0.5rem 0;" id="out-quote"></div>
-
-                    <div class="text-center" style="margin: 1rem 0;">
-                        <div class="font-header text-gold" style="text-transform: uppercase; font-weight: bold; font-size: 0.9rem;" id="out-host-parents"></div>
-                        <div class="font-script" style="font-size: 1.3rem; color: #6b7280;">Solicit your gracious presence at the wedding of their son</div>
-                    </div>
-
-                    <!-- Couple Grid -->
-                    <div class="couple-row">
-                        <div class="couple-col">
-                            <div class="font-script text-pink" style="font-size: 2.5rem; line-height: 1.1;" id="out-groom"></div>
-                            <div class="font-body text-muted" style="white-space: pre-line; margin-top: 5px;" id="out-groom-details"></div>
-                        </div>
-                        
-                        <div class="weds-circle">Weds</div>
-
-                        <div class="couple-col">
-                            <div class="font-script text-pink" style="font-size: 2.5rem; line-height: 1.1;" id="out-bride"></div>
-                            <div class="font-body text-muted" style="white-space: pre-line; font-weight: bold; margin-top: 5px;" id="out-bride-details"></div>
-                            <div class="font-body text-muted" style="font-size: 0.75rem;" id="out-bride-addr"></div>
-                        </div>
-                    </div>
-
-                    <!-- Events Section -->
-                    <div style="flex: 1;">
-                        <div class="text-center">
-                            <h2 class="font-script text-gold" style="font-size: 2rem; margin: 0;">Golden Moments</h2>
-                        </div>
-                        
-                        <div class="events-table" id="out-events-list">
-                            <!-- Events Injected JS -->
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="text-center" style="margin-bottom: 1.5rem;">
-                        <div class="text-muted" style="text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">Venue</div>
-                        <div class="font-header" style="font-size: 1.2rem; font-weight: bold; color: #111;" id="out-venue-name"></div>
-                        <div class="font-body text-muted" id="out-venue-addr"></div>
-                    </div>
-
-                    <div class="footer-grid">
-                        <div class="text-center">
-                            <strong class="text-gold" style="font-size: 0.8rem;">R.S.V.P.</strong>
-                            <div class="font-body text-muted" style="font-size: 0.75rem; white-space: pre-line; margin-top: 5px;" id="out-rsvp"></div>
-                        </div>
-                        <div class="text-center">
-                            <strong class="text-gold" style="font-size: 0.8rem;">Compliments</strong>
-                            <div class="font-body text-muted" style="font-size: 0.75rem; white-space: pre-line; margin-top: 5px;" id="out-compliments"></div>
-                        </div>
-                    </div>
-
-                    <div class="text-center" style="margin-top: 1rem; transform: rotate(-1deg);">
-                        <span class="font-script text-pink" style="font-size: 1.1rem;" id="out-kids"></span>
-                    </div>
-
-                </div>
-            </div>
-
-        </main>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-heart"></i></span>
+      <span class="brand-text">WeddingFlow</span>
+      <span class="brand-pill">Pro Engine</span>
     </div>
 
-    <!-- Hidden input for file loading; Notice onchange is updated to handleFileLoad -->
-    <input type="file" id="file-input" style="display: none;" accept="application/json" onchange="handleFileLoad(this)">
+    <!-- Top Switch: Pen-in-Box (Editor) | Eye (Preview) on Mobile -->
+    <div class="view-switch" role="group" aria-label="Switch editor and preview">
+      <button type="button" class="v-btn active" id="btn-mode-edit" aria-label="Editor" title="Editor">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button type="button" class="v-btn" id="btn-mode-preview" aria-label="Preview" title="Preview">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+    </div>
 
-    <!-- Main Logic -->
-    <script src="script.js"></script>
+    <div class="controls">
+      <div class="history-pill">
+        <button type="button" class="icon-btn" id="btn-undo" title="Undo (Ctrl+Z)" aria-label="Undo" disabled>
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+        <button type="button" class="icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" aria-label="Redo" disabled>
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+      </div>
+
+      <button type="button" class="icon-btn btn-label-wrap" id="btn-upload-top" title="Upload JSON Preset (Ctrl+O)" aria-label="Upload JSON Preset">
+        <i class="fa-solid fa-file-arrow-up"></i>
+        <span class="btn-txt">Upload JSON</span>
+      </button>
+      <button type="button" class="icon-btn" id="btn-save-top" title="Save JSON Preset (Ctrl+S)" aria-label="Save JSON Preset">
+        <i class="fa-solid fa-floppy-disk"></i>
+      </button>
+
+      <div class="sep"></div>
+
+      <button type="button" class="icon-btn" id="btn-theme" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+      </button>
+      <button type="button" class="icon-btn primary btn-label-wrap" id="btn-export-open" title="Export PDF / PNG" aria-label="Export">
+        <i class="fa-solid fa-download"></i>
+        <span class="btn-txt">Export</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <aside>
+      <!-- Live Readiness & Autosave Strip -->
+      <div class="studio-meter">
+        <div class="meter-row">
+          <span class="meter-label">Card Readiness</span>
+          <span class="meter-pct" id="meter-pct">100%</span>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="meter-fill" style="width:100%"></div></div>
+        <div class="meter-issues" id="meter-issues"></div>
+      </div>
+
+      <nav class="tabs-nav" role="tablist">
+        <button type="button" class="tab-btn active" data-tab="tab-templates">
+          <i class="fa-solid fa-palette"></i><span>Designs</span>
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-setup">
+          <i class="fa-solid fa-wand-magic-sparkles"></i><span>Top</span>
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-couple">
+          <i class="fa-solid fa-heart"></i><span>Couple</span>
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-events">
+          <i class="fa-solid fa-calendar-days"></i><span>Events</span>
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-bottom">
+          <i class="fa-solid fa-location-dot"></i><span>Bottom</span>
+        </button>
+      </nav>
+
+      <!-- TAB 0: 80 TEMPLATES -->
+      <div id="tab-templates" class="tab-content active">
+        <div class="preset-upload-bar">
+          <button type="button" class="btn-upload-preset" id="btn-upload-panel">
+            <i class="fa-solid fa-file-arrow-up"></i>
+            <span>Upload JSON Card Preset</span>
+          </button>
+        </div>
+
+        <div class="religion-filter-wrap">
+          <div class="form-label">Tradition &amp; Religion (10 designs each)</div>
+          <div class="religion-pills" id="religion-pills"></div>
+        </div>
+
+        <div class="toggle-row" style="margin-bottom: 12px;">
+          <span class="form-label" style="margin:0;">Apply religion blessing text</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="check-apply-text" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="tpl-grid" id="tpl-grid"></div>
+      </div>
+
+      <!-- TAB 1: TOP -->
+      <div id="tab-setup" class="tab-content">
+        <div class="form-group">
+          <label class="form-label" for="in-ganesh">Sacred Invocation / Header</label>
+          <input type="text" id="in-ganesh" maxlength="160">
+        </div>
+        <div class="toggle-row">
+          <span class="form-label" style="margin:0;">Show Verse / Shloka</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="check-shlok" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="form-group" id="group-shlok">
+          <label class="form-label" for="in-shlok">Sacred Verse / Shloka</label>
+          <textarea id="in-shlok" rows="2" maxlength="400"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-quote">Opening Quote</label>
+          <textarea id="in-quote" rows="2" maxlength="320"></textarea>
+        </div>
+        <div class="form-group section-sep">
+          <label class="form-label" for="in-host-parents">Host Line (Parents)</label>
+          <input type="text" id="in-host-parents" maxlength="180">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-invite-line">Invitation Line</label>
+          <input type="text" id="in-invite-line" maxlength="240">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-events-title">Events Heading</label>
+          <input type="text" id="in-events-title" maxlength="120">
+        </div>
+      </div>
+
+      <!-- TAB 2: COUPLE -->
+      <div id="tab-couple" class="tab-content">
+        <div class="section-tag">GROOM</div>
+        <div class="form-group">
+          <label class="form-label" for="in-groom">Groom Name</label>
+          <input type="text" id="in-groom" maxlength="80">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-groom-details">Parents / Grandparents</label>
+          <textarea id="in-groom-details" rows="2" maxlength="240"></textarea>
+        </div>
+
+        <div class="section-tag section-sep">BRIDE</div>
+        <div class="form-group">
+          <label class="form-label" for="in-bride">Bride Name</label>
+          <input type="text" id="in-bride" maxlength="80">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-bride-details">Parents Details</label>
+          <textarea id="in-bride-details" rows="2" maxlength="240"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-bride-addr">Residence</label>
+          <input type="text" id="in-bride-addr" maxlength="180">
+        </div>
+      </div>
+
+      <!-- TAB 3: EVENTS -->
+      <div id="tab-events" class="tab-content">
+        <div class="form-label">Events Schedule (up to 24)</div>
+        <div id="events-container"></div>
+        <button type="button" class="btn-add" id="btn-add-event">
+          <i class="fa-solid fa-plus"></i> Add Event
+        </button>
+      </div>
+
+      <!-- TAB 4: BOTTOM -->
+      <div id="tab-bottom" class="tab-content">
+        <div class="form-group">
+          <label class="form-label" for="in-venue-name">Venue Name</label>
+          <input type="text" id="in-venue-name" maxlength="140">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-venue-addr">Venue Address</label>
+          <input type="text" id="in-venue-addr" maxlength="240">
+        </div>
+        <div class="form-group section-sep">
+          <label class="form-label" for="in-rsvp">R.S.V.P.</label>
+          <textarea id="in-rsvp" rows="3" maxlength="320"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-compliments">With Best Compliments From</label>
+          <textarea id="in-compliments" rows="2" maxlength="240"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="in-kids">Special / Kids Message</label>
+          <input type="text" id="in-kids" maxlength="200">
+        </div>
+      </div>
+    </aside>
+
+    <!-- Live Preview Stage -->
+    <main id="preview-area">
+      <div class="preview-toolbar">
+        <span class="active-tpl-badge" id="active-tpl-badge">Hindu • Royal Marigold</span>
+        <div class="zoom-controls">
+          <button type="button" class="z-btn" id="btn-zoom-out" title="Zoom Out" aria-label="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+          <span class="z-readout" id="zoom-readout">70%</span>
+          <button type="button" class="z-btn" id="btn-zoom-in" title="Zoom In" aria-label="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+          <button type="button" class="z-btn" id="btn-zoom-fit" title="Fit to View" aria-label="Fit to View"><i class="fa-solid fa-expand"></i></button>
+        </div>
+      </div>
+
+      <div class="card-stage" id="card-stage">
+        <div class="shadi-card frame-temple" id="main-card">
+          <div class="card-bg-glow"></div>
+          <div class="card-inner">
+            <div class="ornament tl"></div>
+            <div class="ornament tr"></div>
+            <div class="ornament bl"></div>
+            <div class="ornament br"></div>
+
+            <div class="section-header">
+              <div class="card-emblem" id="out-emblem"></div>
+              <div class="card-invocation font-hindi" id="out-ganesh"></div>
+              <div class="card-shlok font-hindi" id="out-shlok"></div>
+            </div>
+
+            <div class="card-quote font-body" id="out-quote"></div>
+
+            <div class="card-hosts">
+              <div class="card-host-names font-header" id="out-host-parents"></div>
+              <div class="card-invite-line font-script" id="out-invite-line"></div>
+            </div>
+
+            <div class="couple-row">
+              <div class="couple-col">
+                <div class="couple-name font-script" id="out-groom"></div>
+                <div class="couple-det font-body" id="out-groom-details"></div>
+              </div>
+              <div class="weds-seal"><span class="font-script">Weds</span></div>
+              <div class="couple-col">
+                <div class="couple-name font-script" id="out-bride"></div>
+                <div class="couple-det font-body" id="out-bride-details"></div>
+                <div class="couple-addr font-body" id="out-bride-addr"></div>
+              </div>
+            </div>
+
+            <div class="card-rule-ornament">
+              <span></span><i class="fa-solid fa-diamond"></i><span></span>
+            </div>
+
+            <div class="events-section">
+              <h2 class="events-heading font-script" id="out-events-title"></h2>
+              <div class="events-grid" id="out-events-list"></div>
+            </div>
+
+            <div class="venue-box">
+              <div class="venue-kicker">Venue</div>
+              <div class="venue-name font-header" id="out-venue-name"></div>
+              <div class="venue-addr font-body" id="out-venue-addr"></div>
+            </div>
+
+            <div class="footer-grid">
+              <div class="footer-col">
+                <strong class="footer-title">R.S.V.P.</strong>
+                <div class="footer-body font-body" id="out-rsvp"></div>
+              </div>
+              <div class="footer-col">
+                <strong class="footer-title">With Best Compliments</strong>
+                <div class="footer-body font-body" id="out-compliments"></div>
+              </div>
+            </div>
+
+            <div class="kids-note"><span class="font-script" id="out-kids"></span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Export Engine Modal -->
+  <div id="export-modal" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+      <div class="modal-head">
+        <div>
+          <h3 id="export-modal-title">Export Invitation</h3>
+          <p class="modal-sub">Powered by parallax/jsPDF v4.2.1 &amp; High-DPI Canvas Engine</p>
+        </div>
+        <button type="button" class="icon-btn" id="btn-export-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="export-options">
+        <button type="button" class="export-tile" id="exp-pdf">
+          <span class="exp-ico"><i class="fa-solid fa-file-pdf"></i></span>
+          <span class="exp-info"><strong>A4 Print PDF (jsPDF Engine)</strong><small>210×297 mm • parallax/jsPDF v4.2.1 with offline fallback</small></span>
+        </button>
+        <button type="button" class="export-tile" id="exp-png">
+          <span class="exp-ico"><i class="fa-solid fa-image"></i></span>
+          <span class="exp-info"><strong>High-DPI A4 PNG</strong><small>1654×2339 px • Crisp lossless image for sharing</small></span>
+        </button>
+        <button type="button" class="export-tile" id="exp-story">
+          <span class="exp-ico"><i class="fa-solid fa-mobile-screen-button"></i></span>
+          <span class="exp-info"><strong>WhatsApp / Instagram Story PNG</strong><small>1080×1920 px • Vertical 9:16 social format</small></span>
+        </button>
+        <button type="button" class="export-tile" id="exp-json">
+          <span class="exp-ico"><i class="fa-solid fa-file-code"></i></span>
+          <span class="exp-info"><strong>Save JSON Preset</strong><small>Re-upload anytime to continue editing</small></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="wf-toast" class="wf-toast" role="status" aria-live="polite"></div>
+  <input type="file" id="file-input" style="display: none;" accept=".json,application/json">
+
+  <script defer src="js/data/templates.js"></script>
+  <script defer src="js/engine/validator.js"></script>
+  <script defer src="js/engine/history-engine.js"></script>
+  <script defer src="js/engine/storage-engine.js"></script>
+  <script defer src="js/engine/canvas-renderer.js"></script>
+  <script defer src="js/engine/pdf-engine.js"></script>
+  <script defer src="js/engine/export-engine.js"></script>
+  <script defer src="js/app.js"></script>
 </body>
 </html>
-
-

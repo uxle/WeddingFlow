@@ -1,0 +1,9 @@
+{
+  "name": "WeddingFlow Pro \u2014 Invitation Studio",
+  "short_name": "WeddingFlow",
+  "description": "Design print-ready A4 wedding invitation cards across 8 traditions with a native offline PDF 1.4 engine.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#b91c3b"
+}
